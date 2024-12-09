@@ -16,6 +16,7 @@ export default function Home() {
   }, []); // Empty dependency array ensures it runs only once after the initial render
 
   return (
+
     // <div>
     //   <h1>This is a home page</h1>
     //   {accessToken ? (
@@ -28,7 +29,7 @@ export default function Home() {
 
 
     <div className='w-full'>
-         <NavBar /> 
+         {/* <NavBar />  */}
     </div>
   );
 }
