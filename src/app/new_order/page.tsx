@@ -206,7 +206,7 @@ const NewOrderPage: React.FC = () => {
             </div>
             <div className="flex gap-2 items-center">
               <button
-                className="bg-red-500 text-white p-1 rounded"
+                className="bg-primaryColor text-white py-1 px-2 rounded"
                 onClick={() => handleChangeQuantity(index, -1)}
                 disabled={cartItem.quantity <= 1}
               >
@@ -214,7 +214,7 @@ const NewOrderPage: React.FC = () => {
               </button>
               <span>{cartItem.quantity}</span>
               <button
-                className="bg-green-500 text-white p-1 rounded"
+                className="bg-primaryColor text-white py-1 px-2 rounded"
                 onClick={() => handleChangeQuantity(index, 1)}
               >
                 +

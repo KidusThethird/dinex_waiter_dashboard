@@ -69,6 +69,8 @@ export default function History() {
 
   const [orderHistory, setOrderHistory] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(10);
 
   useEffect(() => {
     // Fetch order history from the API
@@ -93,18 +95,39 @@ export default function History() {
     };
 
     fetchHistory();
-  }, []);
+  }, [accessToken]);
 
   if (loading) {
     return <div>Loading...</div>;
   }
 
+  // Pagination logic
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentOrders = orderHistory.slice(indexOfFirstItem, indexOfLastItem);
+
+  const totalPages = Math.ceil(orderHistory.length / itemsPerPage);
+
+  const handlePagination = (pageNumber: number) => setCurrentPage(pageNumber);
+
+  const handlePrevious = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const handleNext = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
   return (
-    <div className='mt-14'>
+    <div className='mt-14 mx-10'>
       <h1 className='text-2xl font-bold mb-4'>Order History</h1>
       <table className='table-auto border-collapse border border-gray-300 w-full'>
         <thead>
-          <tr className='bg-gray-200'>
+          <tr className='bg-primaryColor text-white'>
             <th className='border border-gray-300 px-4 py-2'>Order Status</th>
             <th className='border border-gray-300 px-4 py-2'>Table Number</th>
             <th className='border border-gray-300 px-4 py-2'>Items</th>
@@ -115,7 +138,7 @@ export default function History() {
           </tr>
         </thead>
         <tbody>
-          {orderHistory.map((order) => (
+          {currentOrders.map((order) => (
             <tr key={order.id} className='hover:bg-gray-100'>
               <td className='border border-gray-300 px-4 py-2'>{order.OrderStatus}</td>
               <td className='border border-gray-300 px-4 py-2'>{order.TableNumber}</td>
@@ -148,6 +171,41 @@ export default function History() {
           ))}
         </tbody>
       </table>
+
+      <div className='flex justify-center mt-4'>
+        <nav>
+          <ul className='flex space-x-2'>
+            <li>
+              <button
+                onClick={handlePrevious}
+                disabled={currentPage === 1}
+                className={`px-4 py-2 border rounded ${currentPage === 1 ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-primaryColor text-white'}`}
+              >
+                Previous
+              </button>
+            </li>
+            {Array.from({ length: totalPages }).map((_, index) => (
+              <li key={index}>
+                <button
+                  onClick={() => handlePagination(index + 1)}
+                  className={`px-4 py-2 border rounded ${currentPage === index + 1 ? 'bg-primaryColor text-white' : 'bg-white text-gray-700'}`}
+                >
+                  {index + 1}
+                </button>
+              </li>
+            ))}
+            <li>
+              <button
+                onClick={handleNext}
+                disabled={currentPage === totalPages}
+                className={`px-4 py-2 border rounded ${currentPage === totalPages ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-primaryColor text-white'}`}
+              >
+                Next
+              </button>
+            </li>
+          </ul>
+        </nav>
+      </div>
     </div>
   );
 }

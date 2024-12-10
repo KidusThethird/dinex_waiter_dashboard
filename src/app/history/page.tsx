@@ -101,8 +101,8 @@ export default function History() {
 
   return (
     <div className='mt-14'>
-      <h1 className='text-2xl font-bold mb-4'>Order History</h1>
-      <table className='table-auto border-collapse border border-gray-300 w-full'>
+      <h1 className='text-2xl font-bold mb-4 mx-5'>Order History</h1>
+      <table className='table-auto border-collapse border border-gray-300 w-5/6 mx-auto'>
         <thead>
           <tr className='bg-gray-200'>
             <th className='border border-gray-300 px-4 py-2'>Order Status</th>
