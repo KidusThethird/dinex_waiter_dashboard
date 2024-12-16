@@ -100,7 +100,7 @@ export default function History() {
   }
 
   return (
-    <div className='mt-14'>
+    <div className='my-14'>
       <h1 className='text-2xl font-bold mb-4 mx-5'>Order History</h1>
       <table className='table-auto border-collapse border border-gray-300 w-5/6 mx-auto'>
         <thead>

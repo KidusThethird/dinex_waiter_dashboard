@@ -1,13 +1,11 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import { apiUrl } from '@/apiConfig';
 import { toast } from "sonner"
 import { setAccessToken, getAccessToken, clearAccessToken } from "../lib/tokenManager";
 import Image from "next/image";
-import { SquareUserRound } from 'lucide-react';
-import Login_Dialog from '@/components/custom_components/login_credential';
 
 
 
@@ -17,8 +15,6 @@ export default function Login() {
   const [password, setPassword] = useState('');
   //const [accessToken, setAccessToken] = useState('');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-
-  const [data, setData] = useState([]);
 
   //const accessToken = getAccessToken();
 
@@ -49,26 +45,6 @@ window.location.href = "/home";
     }
   };
 
-
-  useEffect(() => {
-    // Function to fetch data
-    const fetchWaiters = async () => {
-      try {
-        const response = await fetch('http://localhost:5000/waiters');
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const result = await response.json();
-        setData(result); // Update state with the fetched data
-      } catch (error) {
-        console.error('Error fetching waiters:', error);
-      }
-    };
-
-    fetchWaiters(); // Call the fetch function
-  }, []);
-
-  
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
 
@@ -89,20 +65,7 @@ window.location.href = "/home";
           </div>
 
         <h2 className="text-xl font-semibold text-primaryColor text-center">Login</h2>
-
-<div className='grid grid-cols-5 gap-2'>
-        {data.map((waiter: any) => {
-  return <div key={waiter.id}>
-
-    <div>
-      <SquareUserRound size={50} className='text-primaryColor mx-auto'/>
-      <h1 className='text-center '>{waiter.firstName}</h1>
-      <Login_Dialog id={waiter.id} firstName={waiter.firstName} lastName={waiter.lastName} email={waiter.email}/>
-    </div>
-  </div>;
-})}</div>
-
-        {/* <form onSubmit={handleSubmit} className="mt-6">
+        <form onSubmit={handleSubmit} className="mt-6">
           <div className="mb-4">
             <label htmlFor="email" className="block text-sm font-medium text-gray-600">
               Email
@@ -139,7 +102,7 @@ window.location.href = "/home";
           >
             Login
           </button>
-        </form> */}
+        </form>
 
         {errorMessage && (
           <div className="mt-4 text-center text-sm text-red-500">
